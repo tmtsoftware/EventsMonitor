@@ -2,17 +2,15 @@ package events
 
 import akka.Done
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Source}
 import csw.messages.events.{Event, EventKey, EventName, SystemEvent}
 import csw.messages.params.models.{Id, Prefix}
 import csw.services.event.internal.pubsub.{EventPublisherUtil, EventSubscriberUtil}
-import csw.services.event.internal.redis.{RedisPublisher, RedisSubscriber}
 import csw.services.event.internal.wiring.EventServiceResolver
 import csw.services.event.scaladsl.{EventPublisher, EventSubscriber, RedisFactory}
 import events.TestFutureExt.RichFuture
-import io.lettuce.core.{RedisClient, RedisURI}
+import io.lettuce.core.RedisClient
 import org.scalatest.FunSuite
 import org.scalatest.mockito.MockitoSugar
 
@@ -54,8 +52,12 @@ class EventServiceTest extends FunSuite with MockitoSugar {
   }
 
   test("streaming continuously from 0") {
-    val source = Source.fromIterator(() => Iterator.from(0)).map(i => { Thread.sleep(1000); i.toString })
-    val flow   = Flow[String].prepend(source)
+    val source =
+      Source
+        .fromIterator(() => Iterator.from(0))
+        .throttle(1, 1.second)
+        .map(_.toString)
+    val flow = Flow[String].prepend(source)
     Source.empty.via(flow).runForeach(println).await(100.seconds)
   }
 }

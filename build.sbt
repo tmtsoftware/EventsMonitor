@@ -14,6 +14,7 @@ lazy val streaming = (project in file("."))
       Akka.`akka-typed`,
       Akka.`akka-typed-testkit`,
       Akka.`akka-http`,
+      Akka.`akka-http-tetkit`,
       Akka.`akka-http-circe`,
       Libs.`akka-http-cors`,
       Libs.`scalatest`,
