@@ -13,13 +13,15 @@ lazy val streaming = (project in file("."))
       Akka.`akka-stream`,
       Akka.`akka-typed`,
       Akka.`akka-typed-testkit`,
-      Libs.`akka-http-cors`,
       Akka.`akka-http`,
       Akka.`akka-http-circe`,
+      Libs.`akka-http-cors`,
+      Libs.`scalatest`,
       Circe.`circe-core`.value,
       Circe.`circe-generic`.value,
       Circe.`circe-parser`.value,
       Covenant.`covenant-http`.value,
-      Covenant.`covenant-ws`.value
+      Covenant.`covenant-ws`.value,
+      Csw.`csw-event-client`
     )
   )

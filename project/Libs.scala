@@ -12,8 +12,13 @@ object Akka {
   val `akka-http-circe` = "de.heikoseeberger" %% "akka-http-circe" % "1.20.1" //Apache 2.0
 }
 
+object Csw {
+  val `csw-event-client` = "org.tmt" %% "csw-event-impl" % "0.1-SNAPSHOT"
+}
+
 object Libs {
   val `akka-http-cors` = "ch.megard" %% "akka-http-cors" % "0.3.0"
+  val `scalatest` = "org.scalatest" %% "scalatest" % "3.0.5" //Apache License 2.0
 }
 
 object Covenant {
