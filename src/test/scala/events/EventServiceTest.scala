@@ -7,24 +7,32 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Source}
 import csw.messages.events.{Event, EventKey, EventName, SystemEvent}
 import csw.messages.params.models.{Id, Prefix}
+import csw.services.event.internal.pubsub.{EventPublisherUtil, EventSubscriberUtil}
 import csw.services.event.internal.redis.{RedisPublisher, RedisSubscriber}
-import csw.services.event.scaladsl.{EventPublisher, EventSubscriber}
+import csw.services.event.internal.wiring.EventServiceResolver
+import csw.services.event.scaladsl.{EventPublisher, EventSubscriber, RedisFactory}
 import events.TestFutureExt.RichFuture
 import io.lettuce.core.{RedisClient, RedisURI}
 import org.scalatest.FunSuite
+import org.scalatest.mockito.MockitoSugar
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationLong
 
-class EventServiceTest extends FunSuite {
+class EventServiceTest extends FunSuite with MockitoSugar {
   implicit val system: ActorSystem             = ActorSystem("test-system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   val redisClient: RedisClient    = RedisClient.create()
-  val redisURI: RedisURI          = RedisURI.create("localhost", 6379)
-  val subscriber: EventSubscriber = new RedisSubscriber(redisURI, redisClient)
-  val publisher: EventPublisher   = new RedisPublisher(redisURI, redisClient)
+  private val eventPublisherUtil  = new EventPublisherUtil()
+  private val eventSubscriberUtil = new EventSubscriberUtil()
+  val redisFactory                = new RedisFactory(redisClient, mock[EventServiceResolver], eventPublisherUtil, eventSubscriberUtil)
+
+  private val REDIS_HOST          = "localhost"
+  private val REDIS_PORT          = 6379
+  val subscriber: EventSubscriber = redisFactory.subscriber(REDIS_HOST, REDIS_PORT)
+  val publisher: EventPublisher   = redisFactory.publisher(REDIS_HOST, REDIS_PORT)
 
   val prefix    = Prefix("test.prefix")
   val eventName = EventName("system")

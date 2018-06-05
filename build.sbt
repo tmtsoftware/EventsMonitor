@@ -17,6 +17,7 @@ lazy val streaming = (project in file("."))
       Akka.`akka-http-circe`,
       Libs.`akka-http-cors`,
       Libs.`scalatest`,
+      Libs.`mockito-core`,
       Circe.`circe-core`.value,
       Circe.`circe-generic`.value,
       Circe.`circe-parser`.value,
