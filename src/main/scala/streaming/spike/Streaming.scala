@@ -1,4 +1,4 @@
-package streaming
+package streaming.spike
 
 import scala.language.higherKinds
 

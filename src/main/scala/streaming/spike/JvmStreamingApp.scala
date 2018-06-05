@@ -1,4 +1,4 @@
-package streaming
+package streaming.spike
 
 import akka.actor.ActorSystem
 import monix.reactive.Observable

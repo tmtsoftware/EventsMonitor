@@ -1,11 +1,10 @@
-package streaming
-
-import io.circe.generic.auto._
-import chameleon.ext.circe._
+package streaming.spike
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import chameleon.ext.circe._
 import covenant.ws.WsClient
+import io.circe.generic.auto._
 import monix.reactive.Observable
 import mycelium.client.WebsocketClientConfig
 

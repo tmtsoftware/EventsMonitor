@@ -1,4 +1,4 @@
-package streaming
+package streaming.spike
 
 import covenant.core.api.ApiDsl
 import monix.reactive.Observable
@@ -8,6 +8,7 @@ import scala.concurrent.duration.DurationLong
 
 object StreamingImpl extends Streaming[StreamingDsl.ApiFunction] {
   import StreamingDsl._
+
   import scala.concurrent.ExecutionContext.Implicits.global
 
   def from(a: Int): ApiFunction[String] = Action { state =>
