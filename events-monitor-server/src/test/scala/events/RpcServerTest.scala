@@ -25,7 +25,7 @@ class RpcServerTest extends FunSuite with ScalatestRouteTest {
   test("numbers") {
     val wsClient = WSProbe()
 
-    WS("/stream/numbers?from=17", wsClient.flow) ~> wiring.routes.route ~> check {
+    WS("/stream/numbers/ws?from=17", wsClient.flow) ~> wiring.routes.route ~> check {
       assert(isWebSocketUpgrade)
       wsClient.expectMessage("17")
       wsClient.expectMessage("18")
