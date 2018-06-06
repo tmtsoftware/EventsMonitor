@@ -10,8 +10,13 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport
 
 import scala.concurrent.duration.DurationDouble
 
-class Routes(implicit mat: Materializer) extends FailFastCirceSupport {
+class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materializer) extends FailFastCirceSupport {
   val route: Route = cors() {
+    path("subscribe" / "key" / Segment) { keyName =>
+      val messages = eventsMonitorServer.subscribe(keyName).map(TextMessage.Strict)
+      val flow     = Flow[Message].prepend(messages)
+      handleWebSocketMessages(flow)
+    } ~
     path("stream" / "numbers") {
       parameter("from" ? 0) { startFrom =>
         val messages =

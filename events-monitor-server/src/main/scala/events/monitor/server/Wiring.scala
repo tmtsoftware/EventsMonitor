@@ -13,9 +13,6 @@ class Wiring {
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val ec: ExecutionContext            = system.dispatcher
 
-  lazy val routes    = new Routes()
-  lazy val rpcServer = new RpcServer(routes)
-
   lazy val redisClient: RedisClient = RedisClient.create()
   lazy val eventPublisherUtil       = new EventPublisherUtil()
   lazy val eventSubscriberUtil      = new EventSubscriberUtil()
@@ -25,4 +22,8 @@ class Wiring {
   lazy val REDIS_PORT                  = 6379
   lazy val subscriber: EventSubscriber = redisFactory.subscriber(REDIS_HOST, REDIS_PORT)
   lazy val publisher: EventPublisher   = redisFactory.publisher(REDIS_HOST, REDIS_PORT)
+
+  lazy val eventsMonitorServer = new EventsMonitorServer(subscriber)
+  lazy val routes              = new Routes(eventsMonitorServer)
+  lazy val rpcServer           = new RpcServer(routes)
 }
