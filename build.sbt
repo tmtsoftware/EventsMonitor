@@ -5,7 +5,6 @@ scalaVersion := "2.12.6"
 lazy val `events-monitor-api` = project
   .settings(
     libraryDependencies ++= Seq(
-      Akka.`akka-stream`,
       Circe.`circe-core`.value,
       Circe.`circe-generic`.value,
       Circe.`circe-parser`.value,
@@ -13,8 +12,15 @@ lazy val `events-monitor-api` = project
   )
 
 lazy val `events-monitor-client` = project
+  .enablePlugins(ScalaJSPlugin)
   .dependsOn(`events-monitor-api`)
   .settings(
+    scalaJSUseMainModuleInitializer := true,
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    libraryDependencies ++= Seq(
+      Libs.`scala-js-dom`.value,
+      Libs.`scalatest`.value % Test,
+    )
   )
 
 lazy val `events-monitor-server` = project
@@ -26,7 +32,7 @@ lazy val `events-monitor-server` = project
       Akka.`akka-http-circe`,
       Libs.`akka-http-cors`,
       Csw.`csw-event-client`,
-      Libs.`scalatest` % Test,
+      Libs.`scalatest`.value % Test,
       Libs.`mockito-core` % Test,
       Akka.`akka-typed-testkit` % Test,
     )

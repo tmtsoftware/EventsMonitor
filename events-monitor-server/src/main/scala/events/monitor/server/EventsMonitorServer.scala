@@ -4,13 +4,12 @@ import akka.stream.scaladsl.Source
 import csw.messages.events.{EventKey, EventName}
 import csw.messages.params.models.Prefix
 import csw.services.event.scaladsl.EventSubscriber
-import events.monitor.api.EventsMonitor
 
-class EventsMonitorServer(eventSubscriber: EventSubscriber) extends EventsMonitor {
+class EventsMonitorServer(eventSubscriber: EventSubscriber) {
 
   import csw.messages.params.formats.JsonSupport
 
-  override def subscribe(key: String): Source[String, Any] = {
+  def subscribe(key: String): Source[String, Any] = {
     eventSubscriber.subscribe(Set(from(key))).map(event => JsonSupport.writeEvent(event).toString())
   }
 

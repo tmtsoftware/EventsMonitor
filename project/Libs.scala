@@ -1,6 +1,7 @@
 import sbt._
 import Def.{setting => dep}
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 object Akka {
   val Version = "2.5.11"
@@ -18,9 +19,10 @@ object Csw {
 }
 
 object Libs {
-  val `akka-http-cors` = "ch.megard"     %% "akka-http-cors" % "0.3.0"
-  val `scalatest`      = "org.scalatest" %% "scalatest"      % "3.0.5" //Apache License 2.0
-  val `mockito-core`   = "org.mockito"   % "mockito-core"    % "2.16.0" //MIT License
+  val `akka-http-cors` = "ch.megard" %% "akka-http-cors" % "0.3.0"
+  val `scalatest`      = dep("org.scalatest" %%% "scalatest" % "3.0.5") //Apache License 2.0
+  val `scala-js-dom`   = dep("org.scala-js" %%% "scalajs-dom" % "0.9.6") //Apache License 2.0
+  val `mockito-core`   = "org.mockito" % "mockito-core" % "2.16.0" //MIT License
 }
 
 object Covenant {

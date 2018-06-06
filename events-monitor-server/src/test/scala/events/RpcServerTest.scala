@@ -1,10 +1,8 @@
 package events
 
 import akka.http.scaladsl.testkit.{ScalatestRouteTest, WSProbe}
-import akka.stream.scaladsl.Source
 import csw.messages.events.{Event, EventKey, EventName, SystemEvent}
 import csw.messages.params.models.{Id, Prefix}
-import events.TestFutureExt.RichFuture
 import events.monitor.server.Wiring
 import org.scalatest.FunSuite
 
