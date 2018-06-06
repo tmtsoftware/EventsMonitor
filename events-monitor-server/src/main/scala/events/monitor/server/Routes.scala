@@ -1,4 +1,4 @@
-package streaming.events
+package events.monitor.server
 
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.http.scaladsl.server.Directives._

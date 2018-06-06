@@ -31,17 +31,3 @@ lazy val `events-monitor-server` = project
       Akka.`akka-typed-testkit` % Test,
     )
   )
-
-lazy val `covenant-streaming` = project
-  .settings(
-    name := "sequencer-framework",
-    resolvers += "jitpack" at "https://jitpack.io",
-    libraryDependencies ++= Seq(
-      Circe.`circe-core`.value,
-      Circe.`circe-generic`.value,
-      Circe.`circe-parser`.value,
-      Covenant.`covenant-http`.value,
-      Covenant.`covenant-ws`.value,
-      Libs.`akka-http-cors`,
-    )
-  )

@@ -1,4 +1,4 @@
-package streaming.events
+package events.monitor.server
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http

@@ -5,9 +5,9 @@ import akka.stream.scaladsl.{Flow, Source}
 import csw.messages.events.{Event, EventKey, EventName, SystemEvent}
 import csw.messages.params.models.{Id, Prefix}
 import events.TestFutureExt.RichFuture
+import events.monitor.server.Wiring
 import org.scalatest.FunSuite
 import org.scalatest.mockito.MockitoSugar
-import streaming.events.Wiring
 
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationLong

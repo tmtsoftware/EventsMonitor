@@ -2,8 +2,8 @@ package events
 
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.{ScalatestRouteTest, WSProbe}
+import events.monitor.server.Routes
 import org.scalatest.FunSuite
-import streaming.events.Routes
 
 class RpcServerTest extends FunSuite with ScalatestRouteTest {
 

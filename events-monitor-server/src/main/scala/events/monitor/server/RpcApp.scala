@@ -1,4 +1,4 @@
-package streaming.events
+package events.monitor.server
 
 object RpcApp {
   def main(args: Array[String]): Unit = {
