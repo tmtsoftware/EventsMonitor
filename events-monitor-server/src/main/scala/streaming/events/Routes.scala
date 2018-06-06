@@ -11,20 +11,17 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport
 import scala.concurrent.duration.DurationDouble
 
 class Routes(implicit mat: Materializer) extends FailFastCirceSupport {
-
   val route: Route = cors() {
-    get {
-      path("streaming" / "start") {
-        parameter('from ? 0) { startFrom =>
-          val messages =
-            Source
-              .fromIterator(() => Iterator.from(startFrom))
-              .throttle(1, 1.second)
-              .map(i => TextMessage(i.toString))
+    path("stream" / "numbers") {
+      parameter("from" ? 0) { startFrom =>
+        val messages =
+          Source
+            .fromIterator(() => Iterator.from(startFrom))
+            .throttle(1, 1.second)
+            .map(i => TextMessage(i.toString))
 
-          val flow = Flow[Message].prepend(messages)
-          handleWebSocketMessages(flow)
-        }
+        val flow = Flow[Message].prepend(messages)
+        handleWebSocketMessages(flow)
       }
     }
   }
