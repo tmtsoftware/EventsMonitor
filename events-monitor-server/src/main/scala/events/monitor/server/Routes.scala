@@ -1,5 +1,7 @@
 package events.monitor.server
 
+import java.io.File
+
 import akka.NotUsed
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.http.scaladsl.server.Directives._
@@ -16,6 +18,15 @@ import scala.concurrent.duration.DurationDouble
 class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materializer) extends FailFastCirceSupport {
   val route: Route = cors() {
     get {
+      pathSingleSlash {
+        var a = new File("Foo");
+        println(a.getCanonicalFile)
+        getFromFile("./index.html")
+      } ~
+      path("events-monitor-client-fastopt.js") {
+//        getFromFile("~/projects/events-monitor/events-monitor-client/target/scala-2.12/events-monitor-client-fastopt.js")
+        getFromFile("../../../../events-monitor-client/target/scala-2.12/events-monitor-client-fastopt.js")
+      } ~
       path("subscribe" / "key" / Segment) { keyName =>
         val messages = eventsMonitorServer.subscribe(keyName).map(TextMessage.Strict)
         val flow     = Flow[Message].prepend(messages)

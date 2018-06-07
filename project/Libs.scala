@@ -8,10 +8,14 @@ object Akka {
 
   val `akka-stream`        = "com.typesafe.akka" %% "akka-stream"        % Version
   val `akka-typed`         = "com.typesafe.akka" %% "akka-actor-typed"   % Version
-  val `akka-http`          = "com.typesafe.akka" %% "akka-http"          % "10.1.1"
-  val `akka-http-tetkit`   = "com.typesafe.akka" %% "akka-http-testkit"  % "10.1.1"
   val `akka-typed-testkit` = "com.typesafe.akka" %% "akka-testkit-typed" % Version
-  val `akka-http-circe`    = "de.heikoseeberger" %% "akka-http-circe"    % "1.20.1" //Apache 2.0
+}
+
+object AkkaHttp {
+  val Version = "10.1.1"
+  val `akka-http`          = "com.typesafe.akka" %% "akka-http"          % Version
+  val `akka-http-tetkit`   = "com.typesafe.akka" %% "akka-http-testkit"  % Version
+  val `akka-http2-support` = "com.typesafe.akka" %% "akka-http2-support" % Version
 }
 
 object Csw {
@@ -20,6 +24,7 @@ object Csw {
 
 object Libs {
   val `akka-http-cors` = "ch.megard" %% "akka-http-cors" % "0.3.0"
+  val `akka-http-circe`    = "de.heikoseeberger" %% "akka-http-circe"    % "1.20.1" //Apache 2.0
   val `scalatest`      = dep("org.scalatest" %%% "scalatest" % "3.0.5") //Apache License 2.0
   val `scala-js-dom`   = dep("org.scala-js" %%% "scalajs-dom" % "0.9.6") //Apache License 2.0
   val `mockito-core`   = "org.mockito" % "mockito-core" % "2.16.0" //MIT License

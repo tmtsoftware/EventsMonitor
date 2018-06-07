@@ -17,7 +17,7 @@ object Main {
   }
 
   def sse(): Unit = {
-    val eventSource = new EventSource("http://localhost:9000/stream/numbers/sse?from=13")
+    val eventSource = new EventSource("/stream/numbers/sse?from=13")
     eventSource.onmessage = { messageEvent =>
       println(messageEvent.data)
     }

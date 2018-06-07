@@ -27,17 +27,29 @@ lazy val `events-monitor-client` = project
 
 lazy val `events-monitor-server` = project
   .dependsOn(`events-monitor-api`)
+  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(JavaAgent)
+  .settings(
+    javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.7"
+  )
   .settings(
     libraryDependencies ++= Seq(
-      Akka.`akka-http`,
-      Akka.`akka-http-tetkit`,
-      Akka.`akka-http-circe`,
+      AkkaHttp.`akka-http`,
+      AkkaHttp.`akka-http-tetkit`,
+      AkkaHttp.`akka-http2-support`,
+      Libs.`akka-http-circe`,
       Libs.`akka-http-cors`,
       Csw.`csw-event-client`,
       Libs.`scalatest`.value % Test,
       Libs.`mockito-core` % Test,
       Akka.`akka-typed-testkit` % Test,
-    )
+    ),
+    mappings in Universal ++= {
+      val scriptsDirectory = baseDirectory.value.getParentFile /  "pages"
+      scriptsDirectory.allPaths pair Path.relativeTo(scriptsDirectory) map {
+        case (file, relativePath) => file -> s"pages/$relativePath"
+      }
+    }
   )
 
 lazy val `events-monitor-ui` = project
