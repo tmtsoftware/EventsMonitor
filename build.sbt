@@ -61,5 +61,12 @@ lazy val `events-monitor-ui` = project
     npmDependencies in Compile ++= Seq(
       "react" -> "16.2.0",
       "react-dom" -> "16.2.0"),
-    libraryDependencies ++= Seq(React4s.`react4s`.value, React4s.`react4s-router`.value)
+    libraryDependencies ++= Seq(
+      React4s.`react4s`.value,
+      React4s.`react4s-router`.value,
+      Circe.`circe-core`.value,
+      Circe.`circe-generic`.value,
+      Circe.`circe-generic-extras`.value,
+      Circe.`circe-parser`.value
+    )
   )

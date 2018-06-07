@@ -45,7 +45,8 @@ object Covenant {
 object Circe {
   val Version = "0.9.3"
 
-  val `circe-core`    = dep("io.circe" %%% "circe-core"    % Version)
-  val `circe-generic` = dep("io.circe" %%% "circe-generic" % Version)
-  val `circe-parser`  = dep("io.circe" %%% "circe-parser"  % Version)
+  val `circe-core`           = dep("io.circe" %%% "circe-core"           % Version)
+  val `circe-generic`        = dep("io.circe" %%% "circe-generic"        % Version)
+  val `circe-generic-extras` = dep("io.circe" %%% "circe-generic-extras" % Version)
+  val `circe-parser`         = dep("io.circe" %%% "circe-parser"         % Version)
 }
