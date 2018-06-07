@@ -1,3 +1,5 @@
+import sbt.Keys.libraryDependencies
+
 name := "events-monitor"
 version := "0.1"
 scalaVersion := "2.12.6"
@@ -36,4 +38,16 @@ lazy val `events-monitor-server` = project
       Libs.`mockito-core` % Test,
       Akka.`akka-typed-testkit` % Test,
     )
+  )
+
+lazy val `events-monitor-ui` = project
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+  .settings(
+    resolvers += Resolver.sonatypeRepo("snapshots"),
+    scalaJSUseMainModuleInitializer := true,
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    npmDependencies in Compile ++= Seq(
+      "react" -> "16.2.0",
+      "react-dom" -> "16.2.0"),
+    libraryDependencies ++= Seq(React4s.`react4s`.value, React4s.`react4s-router`.value)
   )

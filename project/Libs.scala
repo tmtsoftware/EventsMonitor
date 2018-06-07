@@ -25,6 +25,11 @@ object Libs {
   val `mockito-core`   = "org.mockito" % "mockito-core" % "2.16.0" //MIT License
 }
 
+object React4s {
+  val `react4s-router` = dep("com.github.werk"    %%% "router4s" % "0.1.0-SNAPSHOT")
+  val `react4s`        = dep("com.github.ahnfelt" %%% "react4s"  % "0.9.14-SNAPSHOT")
+}
+
 object Covenant {
   val Version = "271d249"
 
