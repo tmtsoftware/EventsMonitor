@@ -1,14 +1,14 @@
 package events.monitor.ui.r4s
 
 import com.github.ahnfelt.react4s._
-import events.monitor.ui.r4s.components.ParentSet
+import events.monitor.ui.r4s.components.{FieldPathComponent, ParamSet}
 import events.monitor.ui.r4s.facade.NpmReactBridge
-import io.circe.generic.auto._
+import io.circe.generic.extras.Configuration
+import io.circe.generic.extras.auto._
 import io.circe.parser._
 
 object Main {
   def main(arguments: Array[String]): Unit = {
-    val component = Component(MainComponent)
     val json =
       """{
         |  "type": "ObserveEvent",
@@ -36,8 +36,7 @@ object Main {
         |            {
         |              "keyName": "dec",
         |              "keyType": "StringKey",
-        |              "units": "NoUnits",
-        |              "values": []
+        |              "units": "NoUnits"
         |            },
         |            {
         |              "keyName": "epoch",
@@ -49,13 +48,71 @@ object Main {
         |        }
         |      ],
         |      "units": "NoUnits"
+        |    },
+        |    {
+        |      "keyName": "myStruct",
+        |      "keyType": "StructKey",
+        |      "values": [
+        |        {
+        |          "paramSet": [
+        |            {
+        |              "keyName": "ra",
+        |              "keyType": "StringKey",
+        |              "units": "NoUnits"
+        |            },
+        |            {
+        |              "keyName": "dec",
+        |              "keyType": "StringKey",
+        |              "units": "NoUnits"
+        |            },
+        |            {
+        |              "keyName": "epoch",
+        |              "keyType": "DoubleKey",
+        |              "units": "NoUnits",
+        |              "values": [
+        |              {
+        |          "paramSet": [
+        |            {
+        |              "keyName": "ra",
+        |              "keyType": "StringKey",
+        |              "units": "NoUnits"
+        |            },
+        |            {
+        |              "keyName": "dec",
+        |              "keyType": "StringKey",
+        |              "units": "NoUnits"
+        |            },
+        |            {
+        |              "keyName": "epoch",
+        |              "keyType": "DoubleKey",
+        |              "units": "NoUnits",
+        |              "values": []
+        |            }
+        |          ]
+        |        }
+        |
+        |              ]
+        |            }
+        |          ]
+        |        }
+        |      ],
+        |      "units": "NoUnits"
         |    }
         |  ]
         |}""".stripMargin
 
     println(json)
-    val domainModel = decode[ParentSet](json)
-    println(domainModel)
+    implicit val customConfig: Configuration = Configuration.default.withDefaults
+    val domainModel                          = decode[ParamSet](json)
+    val component: ElementOrComponent = domainModel match {
+      case Left(value) =>
+        println(s"Error in parsing json $value")
+        Component(FieldPathComponent, List())
+      case Right(value) =>
+        println(s"Parsing success $value")
+        Component(FieldPathComponent, List(value))
+    }
+
     NpmReactBridge.renderToDomById(component, "main")
   }
 }
