@@ -113,6 +113,7 @@ object Main {
         Component(FieldPathComponent, List(value))
     }
 
-    NpmReactBridge.renderToDomById(component, "main")
+    val mainComp = Component(MainComponent)
+    NpmReactBridge.renderToDomById(mainComp, "main")
   }
 }

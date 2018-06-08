@@ -3,6 +3,7 @@ package events.monitor.server
 import java.io.File
 
 import akka.NotUsed
+import akka.http.scaladsl.common.{EntityStreamingSupport, JsonEntityStreamingSupport}
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
@@ -29,17 +30,25 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
         val flow     = Flow[Message].prepend(messages)
         handleWebSocketMessages(flow)
       } ~
-      pathPrefix("stream" / "numbers") {
-        parameter("from" ? 0) { startFrom =>
-          val stream = numbers(startFrom)
-          path("ws") {
-            val flow = Flow[Message].prepend(stream.map(i => TextMessage(i.toString)))
-            handleWebSocketMessages(flow)
-          } ~
-          path("sse") {
-            complete {
-              stream.map(x => ServerSentEvent(x.toString))
+      pathPrefix("stream") {
+        path("numbers") {
+          parameter("from" ? 0) { startFrom =>
+            val stream = numbers(startFrom)
+            path("ws") {
+              val flow = Flow[Message].prepend(stream.map(i => TextMessage(i.toString)))
+              handleWebSocketMessages(flow)
+            } ~
+            path("sse") {
+              complete {
+                stream.map(x => ServerSentEvent(x.toString))
+              }
             }
+          }
+        }
+        path("json" / "sse") {
+          implicit val jsonStreamingSupport: JsonEntityStreamingSupport = EntityStreamingSupport.json()
+          complete {
+            json().map(ServerSentEvent(_))
           }
         }
       }
@@ -49,6 +58,12 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
   def numbers(startFrom: Int): Source[Int, NotUsed] = {
     Source
       .fromIterator(() => Iterator.from(startFrom))
+      .throttle(1, 1.second)
+  }
+
+  def json(): Source[String, NotUsed] = {
+    Source
+      .repeat[String](scala.io.Source.fromResource("events.json").getLines().mkString("\n"))
       .throttle(1, 1.second)
   }
 }
