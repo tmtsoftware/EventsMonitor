@@ -19,13 +19,10 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
   val route: Route = cors() {
     get {
       pathSingleSlash {
-        var a = new File("Foo");
-        println(a.getCanonicalFile)
-        getFromFile("./index.html")
+        getFromResource("pages/index.html")
       } ~
       path("events-monitor-client-fastopt.js") {
-//        getFromFile("~/projects/events-monitor/events-monitor-client/target/scala-2.12/events-monitor-client-fastopt.js")
-        getFromFile("../../../../events-monitor-client/target/scala-2.12/events-monitor-client-fastopt.js")
+        getFromResource("events-monitor-client-fastopt.js")
       } ~
       path("subscribe" / "key" / Segment) { keyName =>
         val messages = eventsMonitorServer.subscribe(keyName).map(TextMessage.Strict)

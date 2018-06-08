@@ -30,9 +30,8 @@ lazy val `events-monitor-server` = project
   .enablePlugins(JavaAppPackaging)
   .enablePlugins(JavaAgent)
   .settings(
-    javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.7"
-  )
-  .settings(
+    reStart / javaOptions ++= (run / javaOptions).value,
+    javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.7" % "compile;test;dist",
     libraryDependencies ++= Seq(
       AkkaHttp.`akka-http`,
       AkkaHttp.`akka-http-tetkit`,
@@ -49,7 +48,11 @@ lazy val `events-monitor-server` = project
       scriptsDirectory.allPaths pair Path.relativeTo(scriptsDirectory) map {
         case (file, relativePath) => file -> s"pages/$relativePath"
       }
-    }
+    },
+    resourceGenerators in Compile += Def.task {
+      Seq((fastOptJS in Compile in `events-monitor-client`).value.data)
+    }.taskValue,
+    watchSources ++= (watchSources in `events-monitor-client`).value
   )
 
 lazy val `events-monitor-ui` = project
