@@ -31,7 +31,7 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
         handleWebSocketMessages(flow)
       } ~
       pathPrefix("stream") {
-        path("numbers") {
+        pathPrefix("numbers") {
           parameter("from" ? 0) { startFrom =>
             val stream = numbers(startFrom)
             path("ws") {
@@ -44,7 +44,7 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
               }
             }
           }
-        }
+        } ~
         path("json" / "sse") {
           implicit val jsonStreamingSupport: JsonEntityStreamingSupport = EntityStreamingSupport.json()
           complete {
