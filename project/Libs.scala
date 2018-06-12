@@ -19,7 +19,7 @@ object AkkaHttp {
 }
 
 object Csw {
-  val `csw-event-client` = "org.tmt" %% "csw-event-impl" % "0.1-SNAPSHOT"
+  val `csw-event-client` = "org.tmt" %% "csw-event-client" % "0.1-SNAPSHOT"
 }
 
 object Libs {
