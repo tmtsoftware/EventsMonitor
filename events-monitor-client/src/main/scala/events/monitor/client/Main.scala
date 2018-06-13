@@ -17,9 +17,14 @@ object Main {
   }
 
   def sse(): Unit = {
+    var counter     = 0
     val eventSource = new EventSource("/stream/numbers/sse?from=13")
     eventSource.onmessage = { messageEvent =>
       println(messageEvent.data)
+      counter += 1
+      if (counter == 10) {
+        eventSource.close()
+      }
     }
   }
 }

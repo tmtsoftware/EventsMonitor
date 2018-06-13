@@ -40,7 +40,10 @@ class Routes(eventsMonitorServer: EventsMonitorServer)(implicit mat: Materialize
             } ~
             path("sse") {
               complete {
-                stream.map(x => ServerSentEvent(x.toString))
+                stream.map(x => ServerSentEvent(x.toString)).map { x =>
+                  println(s"****************$x")
+                  x
+                }
               }
             }
           }

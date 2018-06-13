@@ -6,7 +6,8 @@ import akka.stream.ActorMaterializer
 import csw.services.event.internal.redis.RedisEventServiceFactory
 import csw.services.event.scaladsl.{EventPublisher, EventService, EventSubscriber}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.duration.DurationDouble
+import scala.concurrent.{Await, ExecutionContext}
 
 class Wiring {
   implicit val system: ActorSystem             = ActorSystem("App")
@@ -15,8 +16,8 @@ class Wiring {
   implicit val ec: ExecutionContext            = system.dispatcher
 
   lazy val eventService: EventService  = RedisEventServiceFactory.make("localhost", 6379)
-  lazy val subscriber: EventSubscriber = eventService.defaultSubscriber
-  lazy val publisher: EventPublisher   = eventService.defaultPublisher
+  lazy val subscriber: EventSubscriber = Await.result(eventService.defaultSubscriber, 2.seconds)
+  lazy val publisher: EventPublisher   = Await.result(eventService.defaultPublisher, 2.seconds)
   lazy val eventsMonitorServer         = new EventsMonitorServer(subscriber)
 
   lazy val routes    = new Routes(eventsMonitorServer)

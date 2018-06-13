@@ -41,7 +41,7 @@ lazy val `events-monitor-server` = project
       Csw.`csw-event-client`,
       Libs.`scalatest`.value % Test,
       Libs.`mockito-core` % Test,
-      Akka.`akka-typed-testkit` % Test,
+      Akka.`akka-actor-testkit-typed` % Test,
     ),
     mappings in Universal ++= {
       val scriptsDirectory = baseDirectory.value.getParentFile /  "pages"
