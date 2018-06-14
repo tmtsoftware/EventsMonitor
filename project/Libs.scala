@@ -29,6 +29,7 @@ object Libs {
   val `scalatest`       = dep("org.scalatest" %%% "scalatest" % "3.0.5") //Apache License 2.0
   val `scala-js-dom`    = dep("org.scala-js" %%% "scalajs-dom" % "0.9.6") //Apache License 2.0
   val `mockito-core`    = "org.mockito" % "mockito-core" % "2.16.0" //MIT License
+  val `scala-async`     = "org.scala-lang.modules" %% "scala-async" % "0.9.7" //BSD 3-clause "New" or "Revised" License
 }
 
 object React4s {

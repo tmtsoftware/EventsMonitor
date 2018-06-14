@@ -38,6 +38,7 @@ lazy val `events-monitor-server` = project
       AkkaHttp.`akka-http2-support`,
       Libs.`akka-http-circe`,
       Libs.`akka-http-cors`,
+      Libs.`scala-async`,
       Csw.`csw-event-client`,
       Libs.`scalatest`.value % Test,
       Libs.`mockito-core` % Test,
